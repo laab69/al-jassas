@@ -740,13 +740,18 @@ function revealRole() {
   const card = document.getElementById('role-card');
   card.classList.remove('hidden');
 
+  // الموضوع العام — يراه الجميع بما فيهم الجاسوس
+  const theme = game.secretEntry.categorie;
+
   if (isSpy) {
     card.innerHTML = `
       <div class="role-spy">
         <div class="role-badge">الجاسوس</div>
         <div class="spy-emoji">🕵️</div>
         <div class="spy-title">أنت الجاسوس!</div>
-        <div class="spy-desc">لا تعرف الكلمة السرية<br>استمع للآخرين وحاول تخمينها</div>
+        <div class="secret-label" style="margin-top:14px;">موضوع الكلمة السرية</div>
+        <div class="secret-word" style="font-size:2em; color:var(--gold);">${escapeHtml(theme)}</div>
+        <div class="spy-desc" style="margin-top:10px;">تعرف أن الموضوع "<b>${escapeHtml(theme)}</b>" لكن لا تعرف الكلمة بالضبط<br>استمع للآخرين وحاول تخمينها</div>
       </div>`;
     const hint = SPY_HINTS[Math.floor(Math.random() * SPY_HINTS.length)];
     const hintEl = document.getElementById('spy-hint-el');
@@ -756,9 +761,11 @@ function revealRole() {
     card.innerHTML = `
       <div class="secret-container">
         <div class="role-badge safe">أنت بأمان ✓</div>
-        <div class="secret-label" style="margin-top:14px;">الكلمة السرية</div>
+        <div class="secret-label" style="margin-top:14px;">الموضوع العام</div>
+        <div class="secret-word" style="font-size:1.6em;">${escapeHtml(theme)}</div>
+        <div class="divider">✦</div>
+        <div class="secret-label">الكلمة السرية</div>
         <div class="secret-word">${escapeHtml(game.secretEntry.mot)}</div>
-        <span class="categorie-pill">${escapeHtml(game.secretEntry.categorie)}</span>
         <div class="secret-hint">قل جملة أو كلمة تتعلق بها دون أن تقولها مباشرة!</div>
       </div>`;
   }
