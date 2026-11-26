@@ -496,6 +496,62 @@ input:focus {
   display: none;
 }
 
+/* ========== CELEBRATION CONFETTI ========== */
+.celebration-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 998;
+  overflow: hidden;
+}
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -20px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
+}
+
+/* ========== RESULT ENTRANCE ========== */
+.result-banner.animate-pop {
+  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes popIn {
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.result-emoji.animate-bounce {
+  animation: bounce 1s ease infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+.result-info.animate-stagger > * {
+  animation: slideIn 0.5s ease forwards;
+  opacity: 0;
+}
+.result-info.animate-stagger > *:nth-child(2) { animation-delay: 0.15s; }
+.result-info.animate-stagger > *:nth-child(3) { animation-delay: 0.30s; }
+.result-info.animate-stagger > *:nth-child(4) { animation-delay: 0.45s; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ========== VIBRATION (mobile) ========== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-5px); }
+  75%      { transform: translateX(5px); }
+}
+.urgent-shake { animation: shake 0.3s ease 3; }
+
 /* ========== COVER ========== */
 .cover-overlay {
   position: fixed;
@@ -535,6 +591,9 @@ input:focus {
 <body>
 <div class="geo-top"></div>
 <div class="wrapper">
+
+<!-- طبقة الاحتفال -->
+<div id="celebration-layer" class="celebration-layer"></div>
 
 <!-- غطاء الشاشة -->
 <div id="cover" class="cover-overlay hidden">
@@ -813,10 +872,18 @@ function updateTimer() {
   digits.textContent = `${m}:${s}`;
   digits.className = 'timer-digits' + (game.timeLeft <= 30 ? ' urgent' : '');
 
+  // صوت
+  if (game.timeLeft <= 10 && game.timeLeft > 0) {
+    playUrgentSound();
+    if (navigator.vibrate) navigator.vibrate(80);
+  } else if (game.timeLeft > 0 && game.timeLeft % 60 === 0) {
+    playTickSound();
+  }
+
   // Cercle SVG
   const ring = document.getElementById('timer-ring-el');
   if (ring) {
-    const total = 2 * Math.PI * 68; // circumference
+    const total = 2 * Math.PI * 68;
     const progress = game.timeLeft / game.totalTime;
     ring.style.strokeDashoffset = total * (1 - progress);
     ring.style.stroke = game.timeLeft <= 30 ? '#e74c3c' : 'var(--gold)';
@@ -863,14 +930,14 @@ function submitVote() {
 
   const card = document.getElementById('result-card');
   card.innerHTML = `
-    <div class="result-banner">
-      <div class="result-emoji">${spyCaught ? '🎉' : '😈'}</div>
+    <div class="result-banner animate-pop">
+      <div class="result-emoji ${spyCaught ? 'animate-bounce' : ''}">${spyCaught ? '🎉' : '😈'}</div>
       <div class="${spyCaught ? 'result-title-win' : 'result-title-lose'}">
         ${spyCaught ? 'تم كشف الجاسوس!' : 'نجا الجاسوس!'}
       </div>
     </div>
     <div class="divider">✦</div>
-    <div class="result-info">
+    <div class="result-info animate-stagger">
       <div class="result-row">
         <span class="result-row-label">الجاسوس كان</span>
         <span class="result-row-value">🕵️ ${escapeHtml(spyName)}</span>
@@ -891,7 +958,15 @@ function submitVote() {
     <div style="margin-top:16px; text-align:center; font-size:1.1em; color:${spyCaught ? '#1abc9c' : '#e74c3c'}; font-weight:700;">
       ${spyCaught ? '✅ فازت المجموعة!' : '❌ فاز الجاسوس!'}
     </div>`;
+
   showScreen('screen-result');
+
+  if (spyCaught) {
+    playWinSound();
+    launchConfetti();
+  } else {
+    playLoseSound();
+  }
 }
 
 function restartGame() {
@@ -905,6 +980,98 @@ function restartGame() {
     timerInterval: null, timeLeft: 300, totalTime: 300
   };
   startGame();
+}
+
+// ============================================================
+// الصوت (Web Audio API — بدون ملفات خارجية)
+// ============================================================
+function getAudio() {
+  try { return new (window.AudioContext || window.webkitAudioContext)(); }
+  catch(e) { return null; }
+}
+
+function playWinSound() {
+  const ctx = getAudio(); if (!ctx) return;
+  const notes = [523, 659, 784, 1047]; // دو مي صول دو عالي
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
+    gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.12);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.3);
+    osc.start(ctx.currentTime + i * 0.12);
+    osc.stop(ctx.currentTime + i * 0.12 + 0.35);
+  });
+}
+
+function playLoseSound() {
+  const ctx = getAudio(); if (!ctx) return;
+  const notes = [392, 349, 330, 294]; // نزولي حزين
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.15);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.4);
+    osc.start(ctx.currentTime + i * 0.15);
+    osc.stop(ctx.currentTime + i * 0.15 + 0.45);
+  });
+}
+
+function playTickSound() {
+  const ctx = getAudio(); if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value = 880;
+  gain.gain.setValueAtTime(0.08, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.06);
+}
+
+function playUrgentSound() {
+  const ctx = getAudio(); if (!ctx) return;
+  [600, 800].forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.1);
+    osc.start(ctx.currentTime + i * 0.15);
+    osc.stop(ctx.currentTime + i * 0.15 + 0.12);
+  });
+}
+
+// ============================================================
+// الاحتفال بالكونفيتي
+// ============================================================
+function launchConfetti() {
+  const layer = document.getElementById('celebration-layer');
+  layer.innerHTML = '';
+  const colors = ['#f5c842','#1abc9c','#e74c3c','#3498db','#9b59b6','#ffffff','#2ecc71'];
+  const shapes = ['●', '■', '▲', '★', '◆'];
+
+  for (let i = 0; i < 80; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    el.style.cssText = `
+      left: ${Math.random() * 100}%;
+      top: -30px;
+      color: ${colors[Math.floor(Math.random() * colors.length)]};
+      font-size: ${8 + Math.random() * 14}px;
+      animation-duration: ${2 + Math.random() * 3}s;
+      animation-delay: ${Math.random() * 1.5}s;
+    `;
+    layer.appendChild(el);
+  }
+  setTimeout(() => { layer.innerHTML = ''; }, 6000);
 }
 
 function escapeHtml(s) {
