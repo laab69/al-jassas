@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Jassas — الجاسوس</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #0c3b2e 0%, #1a5c48 100%);
+    color: #f5f0e6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  .screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    gap: 20px;
+    animation: fadeIn 0.4s ease;
+  }
+  .screen.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  h1 {
+    font-size: 2.2em;
+    text-align: center;
+    color: #ffd700;
+    margin-top: 30px;
+  }
+  .arabic { font-size: 1.4em; color: #a8e6cf; }
+  h2 { text-align: center; font-size: 1.3em; color: #ffd700; }
+
+  .btn {
+    background: linear-gradient(135deg, #ffd700, #ffae00);
+    color: #0c3b2e;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 40px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.15s;
+  }
+  .btn:hover { transform: scale(1.03); }
+  .btn.secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #f5f0e6;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+  }
+
+  .card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    padding: 30px 20px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .secret-word {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ffd700;
+    margin: 15px 0;
+  }
+  .spy-word {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin: 15px 0;
+  }
+
+  input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    color: #f5f0e6;
+    font-size: 1.2em;
+    text-align: center;
+  }
+
+  .player-name-input { margin: 8px 0; }
+
+  .pass-phone {
+    font-size: 1.4em;
+    color: #a8e6cf;
+    margin-bottom: 10px;
+  }
+
+  .player-count-display {
+    font-size: 2.5em;
+    color: #ffd700;
+    font-weight: bold;
+  }
+
+  .timer-display {
+    font-size: 3em;
+    font-weight: bold;
+    color: #ffd700;
+  }
+
+  .vote-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: #f5f0e6;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 1.05em;
+    width: 100%;
+    cursor: pointer;
+    margin: 6px 0;
+    transition: all 0.2s;
+  }
+  .vote-btn:hover { background: rgba(255, 107, 107, 0.2); border-color: #ff6b6b; }
+  .vote-btn.selected { background: #ff6b6b; color: white; border-color: #ff6b6b; }
+
+  .result-spy { color: #ff6b6b; font-size: 1.6em; font-weight: bold; }
+  .result-win { color: #4ade80; font-size: 1.4em; font-weight: bold; }
+
+  .hint-box {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 0.95em;
+    color: #a8e6cf;
+    line-height: 1.6;
+  }
+
+  .hidden { display: none !important; }
+
+  .logo { font-size: 3.5em; margin-bottom: 10px; }
+
+  ul.rules { text-align: left; line-height: 1.8; padding-left: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ÉCRAN 1 : ACCUEIL -->
+<div id="screen-home" class="screen active">
+  <div class="logo">🕌</div>
+  <h1>Al-Jassas</h1>
+  <p class="arabic">الجاسوس</p>
+  <p style="text-align:center; line-height:1.6;">Le jeu de l'espion islamique.<br>Trouvez l'espion... ou ne vous faites pas démasquer !</p>
+  <button class="btn" onclick="startSetup()">▶ Commencer</button>
+  <div class="hint-box">
+    <strong>Comment jouer :</strong>
+    <ul class="rules">
+      <li>Tous les joueurs voient le mot secret (une histoire, un prophète, un lieu...)</li>
+      <li>Un joueur est l'espion : il ne voit PAS le mot</li>
+      <li>Chacun dit une phrase en rapport avec le mot</li>
+      <li>L'espion bluffe et essaie de deviner</li>
+      <li>À la fin, le groupe vote pour désigner l'espion</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ÉCRAN 2 : CONFIGURATION -->
+<div id="screen-setup" class="screen">
+  <h2>⚙️ Configuration</h2>
+  <div class="card">
+    <label for="numPlayers">Nombre de joueurs :</label><br><br>
+    <input type="number" id="numPlayers" min="3" max="10" value="4" onchange="renderPlayerInputs()"><br><br>
+    <div id="playerInputs"></div>
+    <br>
+    <label for="timerMinutes">Durée de la discussion (min) :</label><br><br>
+    <input type="number" id="timerMinutes" min="1" max="10" value="5">
+  </div>
+  <button class="btn" onclick="startGame()">🎮 Lancer la partie</button>
+  <button class="btn secondary" onclick="showScreen('screen-home')">← Retour</button>
+</div>
+
+<!-- ÉCRAN 3 : PASSER LE TÉLÉPHONE -->
+<div id="screen-pass" class="screen">
+  <h2 id="pass-title">📱 Passez le téléphone</h2>
+  <div class="card">
+    <p class="pass-phone" id="pass-player"></p>
+    <button class="btn" onclick="revealRole()">👁️ Voir mon rôle</button>
+  </div>
+  <div id="role-card" class="card hidden">
+    <!-- rempli par JS -->
+  </div>
+  <p id="spy-hint" class="hint-box hidden"></p>
+  <button class="btn secondary hidden" id="btn-next-pass" onclick="nextPlayer()">Suivant →</button>
+</div>
+
+<!-- ÉCRAN 4 : DISCUSSION -->
+<div id="screen-discussion" class="screen">
+  <h2>🗣️ Discussion</h2>
+  <div class="card">
+    <p>Dites chacun une phrase en rapport avec le mot secret !</p>
+    <br>
+    <div class="timer-display" id="timer">05:00</div>
+  </div>
+  <button class="btn" onclick="goToVote()">🗳️ Passer au vote</button>
+  <button class="btn secondary" onclick="showReveal()">👁️ Le mot secret était...</button>
+  <div id="reveal-word" class="card hidden"></div>
+</div>
+
+<!-- ÉCRAN 5 : VOTE -->
+<div id="screen-vote" class="screen">
+  <h2>🗳️ Qui est l'espion ?</h2>
+  <div class="card">
+    <p>Chaque joueur vote (le téléphone passe de main en main) :</p>
+    <br>
+    <div id="voteButtons"></div>
+  </div>
+  <button class="btn" onclick="submitVote()">✅ Confirmer le vote</button>
+</div>
+
+<!-- ÉCRAN 6 : RÉSULTAT -->
+<div id="screen-result" class="screen">
+  <h2>🏁 Résultat</h2>
+  <div class="card" id="result-card">
+    <!-- rempli par JS -->
+  </div>
+  <button class="btn" onclick="restartGame()">🔄 Rejouer</button>
+</div>
+
+<script src="content.js"></script>
+<script>
+  // ============================================================
+  // LOGIQUE DU JEU
+  // ============================================================
+
+  let game = {
+    players: [],
+    numPlayers: 0,
+    spyIndex: -1,
+    secretEntry: null,
+    currentPlayer: 0,
+    votes: {},
+    timerInterval: null,
+    timeLeft: 300
+  };
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function startSetup() {
+    renderPlayerInputs();
+    showScreen('screen-setup');
+  }
+
+  function renderPlayerInputs() {
+    const n = parseInt(document.getElementById('numPlayers').value) || 4;
+    document.getElementById('numPlayers').value = Math.max(3, Math.min(10, n));
+    const container = document.getElementById('playerInputs');
+    let html = '';
+    for (let i = 0; i < n; i++) {
+      html += `<input type="text" class="player-name-input" id="player-${i}" placeholder="Joueur ${i+1}" value="${i < game.players.length ? game.players[i].replace(/"/g,'&quot;') : ''}"><br>`;
+    }
+    container.innerHTML = html;
+  }
+
+  function startGame() {
+    const n = parseInt(document.getElementById('numPlayers').value);
+    game.numPlayers = n;
+    game.players = [];
+    for (let i = 0; i < n; i++) {
+      const val = document.getElementById(`player-${i}`).value.trim();
+      game.players.push(val || `Joueur ${i+1}`);
+    }
+    // Choisir l'espion au hasard
+    game.spyIndex = Math.floor(Math.random() * n);
+    // Choisir le mot secret au hasard
+    game.secretEntry = GAME_CONTENT[Math.floor(Math.random() * GAME_CONTENT.length)];
+    game.currentPlayer = 0;
+    game.votes = {};
+    passPhone();
+  }
+
+  function passPhone() {
+    document.getElementById('role-card').classList.add('hidden');
+    document.getElementById('btn-next-pass').classList.add('hidden');
+    document.getElementById('spy-hint').classList.add('hidden');
+    document.getElementById('pass-player').textContent = game.players[game.currentPlayer];
+    document.getElementById('pass-title').textContent = `📱 Passez le téléphone (${game.currentPlayer + 1}/${game.numPlayers})`;
+    showScreen('screen-pass');
+  }
+
+  function revealRole() {
+    const isSpy = game.currentPlayer === game.spyIndex;
+    const card = document.getElementById('role-card');
+    card.classList.remove('hidden');
+    if (isSpy) {
+      card.innerHTML = `
+        <p style="font-size:1.1em;">Tu es...</p>
+        <p class="spy-word">🕵️ L'ESPION</p>
+        <p>Tu ne connais pas le mot secret !<br>Écoute et bluffe.</p>
+      `;
+      const hint = SPY_HINTS[Math.floor(Math.random() * SPY_HINTS.length)];
+      const hintEl = document.getElementById('spy-hint');
+      hintEl.textContent = "💡 Astuce : " + hint;
+      hintEl.classList.remove('hidden');
+    } else {
+      card.innerHTML = `
+        <p style="font-size:1.1em;">Tu connais le mot secret :</p>
+        <p class="secret-word">${escapeHtml(game.secretEntry.mot)}</p>
+        <p style="color:#a8e6cf;">Catégorie : ${escapeHtml(game.secretEntry.categorie)}</p>
+        <p class="hint-box" style="margin-top:10px;">Dis une phrase en rapport, sans le révéler directement !</p>
+      `;
+    }
+    document.getElementById('btn-next-pass').classList.remove('hidden');
+  }
+
+  function nextPlayer() {
+    game.currentPlayer++;
+    if (game.currentPlayer >= game.numPlayers) {
+      startDiscussion();
+    } else {
+      passPhone();
+    }
+  }
+
+  function startDiscussion() {
+    showScreen('screen-discussion');
+    document.getElementById('reveal-word').classList.add('hidden');
+    const minutes = parseInt(document.getElementById('timerMinutes').value) || 5;
+    game.timeLeft = minutes * 60;
+    clearInterval(game.timerInterval);
+    updateTimer();
+    game.timerInterval = setInterval(() => {
+      game.timeLeft--;
+      updateTimer();
+      if (game.timeLeft <= 0) {
+        clearInterval(game.timerInterval);
+        goToVote();
+      }
+    }, 1000);
+  }
+
+  function updateTimer() {
+    const m = Math.floor(game.timeLeft / 60).toString().padStart(2, '0');
+    const s = (game.timeLeft % 60).toString().padStart(2, '0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+  }
+
+  function showReveal() {
+    const el = document.getElementById('reveal-word');
+    el.classList.remove('hidden');
+    el.innerHTML = `<p>Le mot secret est :</p><p class="secret-word">${escapeHtml(game.secretEntry.mot)}</p>`;
+  }
+
+  function goToVote() {
+    clearInterval(game.timerInterval);
+    const container = document.getElementById('voteButtons');
+    let html = '';
+    game.players.forEach((p, i) => {
+      html += `<button class="vote-btn" data-index="${i}" onclick="selectVote(${i})">${escapeHtml(p)}</button>`;
+    });
+    container.innerHTML = html;
+    game.selectedVote = null;
+    showScreen('screen-vote');
+  }
+
+  function selectVote(i) {
+    document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelector(`.vote-btn[data-index="${i}"]`).classList.add('selected');
+    game.selectedVote = i;
+  }
+
+  function submitVote() {
+    if (game.selectedVote === null) {
+      alert("Sélectionnez un joueur d'abord !");
+      return;
+    }
+    const card = document.getElementById('result-card');
+    const spyName = game.players[game.spyIndex];
+    const votedName = game.players[game.selectedVote];
+    const spyCaught = game.selectedVote === game.spyIndex;
+
+    let html = `<p style="font-size:1.1em;">L'espion était :</p>
+      <p class="result-spy">🕵️ ${escapeHtml(spyName)}</p>
+      <p>Le groupe a voté : <strong>${escapeHtml(votedName)}</strong></p><br>`;
+
+    if (spyCaught) {
+      html += `<p class="result-win">✅ Le groupe a gagné !<br>L'espion est démasqué !</p>`;
+    } else {
+      html += `<p class="result-spy">❌ L'espion s'est échappé !<br>${escapeHtml(spyName)} remporte la manche.</p>`;
+    }
+
+    html += `<br><div class="hint-box">Le mot secret était : <strong>${escapeHtml(game.secretEntry.mot)}</strong> (${escapeHtml(game.secretEntry.categorie)})</div>`;
+    card.innerHTML = html;
+    showScreen('screen-result');
+  }
+
+  function restartGame() {
+    game = { players: game.players, numPlayers: 0, spyIndex: -1, secretEntry: null, currentPlayer: 0, votes: {}, timerInterval: null, timeLeft: 300 };
+    showScreen('screen-home');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
