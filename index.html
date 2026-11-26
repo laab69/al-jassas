@@ -652,6 +652,24 @@ input:focus {
   <button class="btn btn-secondary" onclick="showScreen('screen-home')">→ رجوع</button>
 </div>
 
+<!-- ===== الشاشة 2.5: اختيار الموضوع ===== -->
+<div id="screen-theme" class="screen">
+  <div class="game-header">
+    <div style="font-size:2em;">🎯</div>
+    <div class="game-title" style="font-size:1.8em;">اختر الموضوع</div>
+  </div>
+
+  <div class="card">
+    <p style="text-align:center; color:rgba(253,246,227,0.7); margin-bottom:16px; font-size:0.95em;">
+      ستكون الكلمة السرية من هذا الموضوع
+    </p>
+    <div class="vote-grid" id="themeButtons"></div>
+  </div>
+
+  <button class="btn btn-primary" onclick="confirmTheme()">✓ تأكيد وبدء اللعب</button>
+  <button class="btn btn-secondary" onclick="showScreen('screen-setup')">→ رجوع</button>
+</div>
+
 <!-- ===== الشاشة 3: تمرير الهاتف ===== -->
 <div id="screen-pass" class="screen">
   <div class="card card-gold">
@@ -778,8 +796,54 @@ function startGame() {
     const v = document.getElementById(`player-${i}`).value.trim();
     game.players.push(v || `اللاعب ${i + 1}`);
   }
-  game.spyIndex = Math.floor(Math.random() * n);
-  game.secretEntry = GAME_CONTENT[Math.floor(Math.random() * GAME_CONTENT.length)];
+  game.selectedTheme = null;
+  renderThemeButtons();
+  showScreen('screen-theme');
+}
+
+function renderThemeButtons() {
+  // استخراج الفئات الفريدة مع عددها
+  const cats = {};
+  GAME_CONTENT.forEach(e => { cats[e.categorie] = (cats[e.categorie]||0)+1; });
+
+  const themeEmojis = {
+    'نبي': '🧕', 'سورة': '📖', 'قصة': '📜', 'حدث': '⚔️',
+    'معجزة': '✨', 'مكان': '🕌', 'شخصية': '👤', 'ركن': '🕋',
+    'عبادة': '🤲', 'مفهوم': '💭', 'دعاء': ' dua', 'خُلُق': '❤️',
+    'علم': '📚'
+  };
+  themeEmojis['دعاء'] = '🤲';
+
+  const keys = Object.keys(cats).sort((a,b) => cats[b]-cats[a]);
+  let html = `<button class="vote-btn selected" data-theme="الكل" onclick="selectTheme('الكل')">
+      <div class="vote-avatar">🎲</div>
+      <span>كل المواضيع (${GAME_CONTENT.length} كلمة)</span>
+    </button>`;
+  keys.forEach(k => {
+    const emoji = themeEmojis[k] || '✦';
+    html += `<button class="vote-btn" data-theme="${escapeHtml(k)}" onclick="selectTheme('${escapeHtml(k)}')">
+      <div class="vote-avatar">${emoji}</div>
+      <span>${escapeHtml(k)} (${cats[k]} كلمة)</span>
+    </button>`;
+  });
+  document.getElementById('themeButtons').innerHTML = html;
+  game.selectedTheme = 'الكل';
+}
+
+function selectTheme(theme) {
+  document.querySelectorAll('#themeButtons .vote-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`#themeButtons .vote-btn[data-theme="${theme}"]`).classList.add('selected');
+  game.selectedTheme = theme;
+}
+
+function confirmTheme() {
+  const theme = game.selectedTheme || 'الكل';
+  // اختيار كلمة عشوائية من الموضوع المختار
+  const pool = (theme === 'الكل') ? GAME_CONTENT : GAME_CONTENT.filter(e => e.categorie === theme);
+  if (pool.length === 0) { alert('لا توجد كلمات في هذا الموضوع!'); return; }
+
+  game.spyIndex = Math.floor(Math.random() * game.numPlayers);
+  game.secretEntry = pool[Math.floor(Math.random() * pool.length)];
   game.currentPlayer = 0;
   game.selectedVote = null;
   passPhone();
@@ -977,9 +1041,11 @@ function restartGame() {
     players: savedPlayers, numPlayers: savedNum,
     spyIndex: -1, secretEntry: null,
     currentPlayer: 0, selectedVote: null,
-    timerInterval: null, timeLeft: 300, totalTime: 300
+    timerInterval: null, timeLeft: 300, totalTime: 300,
+    selectedTheme: null
   };
-  startGame();
+  renderThemeButtons();
+  showScreen('screen-theme');
 }
 
 // ============================================================
