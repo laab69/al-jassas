@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Al-Jassas — الجاسوس</title>
+<title>الجاسوس — لعبة إسلامية</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-family: 'Segoe UI', Tahoma, 'Arial', sans-serif;
     background: linear-gradient(135deg, #0c3b2e 0%, #1a5c48 100%);
     color: #f5f0e6;
     min-height: 100vh;
@@ -15,33 +15,34 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    direction: rtl;
   }
   .screen {
     display: none;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 500px;
-    gap: 20px;
+    max-width: 480px;
+    gap: 18px;
     animation: fadeIn 0.4s ease;
   }
   .screen.active { display: flex; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
   h1 {
-    font-size: 2.2em;
+    font-size: 2.6em;
     text-align: center;
     color: #ffd700;
-    margin-top: 30px;
+    margin-top: 20px;
   }
-  .arabic { font-size: 1.4em; color: #a8e6cf; }
+  .subtitle { font-size: 1.1em; color: #a8e6cf; text-align: center; line-height: 1.7; }
   h2 { text-align: center; font-size: 1.3em; color: #ffd700; }
 
   .btn {
     background: linear-gradient(135deg, #ffd700, #ffae00);
     color: #0c3b2e;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 16px 40px;
     font-size: 1.1em;
     font-weight: bold;
@@ -50,27 +51,29 @@
     transition: transform 0.15s;
   }
   .btn:hover { transform: scale(1.03); }
+  .btn:active { transform: scale(0.97); }
   .btn.secondary {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255,255,255,0.12);
     color: #f5f0e6;
-    border: 1px solid rgba(255, 215, 0, 0.4);
+    border: 1px solid rgba(255,215,0,0.4);
   }
 
   .card {
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 215, 0, 0.3);
+    background: rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,215,0,0.3);
     border-radius: 20px;
-    padding: 30px 20px;
+    padding: 28px 20px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
   }
 
   .secret-word {
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: bold;
     color: #ffd700;
     margin: 15px 0;
+    line-height: 1.4;
   }
   .spy-word {
     font-size: 2.2em;
@@ -78,159 +81,187 @@
     color: #ff6b6b;
     margin: 15px 0;
   }
+  .categorie-tag {
+    display: inline-block;
+    background: rgba(255,215,0,0.15);
+    border: 1px solid rgba(255,215,0,0.4);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.9em;
+    color: #a8e6cf;
+    margin-top: 6px;
+  }
 
   input[type="number"], input[type="text"] {
     width: 100%;
-    padding: 14px;
+    padding: 13px;
     border-radius: 10px;
-    border: 2px solid rgba(255, 215, 0, 0.3);
-    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255,215,0,0.3);
+    background: rgba(0,0,0,0.3);
     color: #f5f0e6;
-    font-size: 1.2em;
+    font-size: 1.15em;
     text-align: center;
+    direction: rtl;
   }
 
-  .player-name-input { margin: 8px 0; }
+  .player-name-input { margin: 7px 0; }
 
-  .pass-phone {
-    font-size: 1.4em;
-    color: #a8e6cf;
-    margin-bottom: 10px;
-  }
-
-  .player-count-display {
-    font-size: 2.5em;
+  .pass-name {
+    font-size: 1.7em;
     color: #ffd700;
     font-weight: bold;
+    margin: 10px 0;
   }
 
   .timer-display {
-    font-size: 3em;
+    font-size: 3.5em;
     font-weight: bold;
     color: #ffd700;
+    letter-spacing: 3px;
   }
+  .timer-display.urgent { color: #ff6b6b; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
 
   .vote-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,215,0,0.3);
     color: #f5f0e6;
-    border-radius: 10px;
-    padding: 14px;
-    font-size: 1.05em;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 1.1em;
     width: 100%;
     cursor: pointer;
     margin: 6px 0;
     transition: all 0.2s;
+    text-align: center;
   }
-  .vote-btn:hover { background: rgba(255, 107, 107, 0.2); border-color: #ff6b6b; }
-  .vote-btn.selected { background: #ff6b6b; color: white; border-color: #ff6b6b; }
+  .vote-btn:hover { background: rgba(255,107,107,0.2); border-color: #ff6b6b; }
+  .vote-btn.selected { background: #ff6b6b; color: white; border-color: #ff6b6b; font-weight: bold; }
 
-  .result-spy { color: #ff6b6b; font-size: 1.6em; font-weight: bold; }
-  .result-win { color: #4ade80; font-size: 1.4em; font-weight: bold; }
+  .result-spy { color: #ff6b6b; font-size: 1.5em; font-weight: bold; margin: 10px 0; }
+  .result-win { color: #4ade80; font-size: 1.3em; font-weight: bold; }
 
   .hint-box {
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 12px;
     padding: 15px;
     font-size: 0.95em;
     color: #a8e6cf;
-    line-height: 1.6;
+    line-height: 1.8;
+    width: 100%;
   }
 
   .hidden { display: none !important; }
+  .logo { font-size: 4em; margin: 10px 0 5px; }
 
-  .logo { font-size: 3.5em; margin-bottom: 10px; }
+  ul.rules { text-align: right; line-height: 1.9; padding-right: 20px; list-style: disc; }
+  label { color: #a8e6cf; font-size: 1em; }
 
-  ul.rules { text-align: left; line-height: 1.8; padding-left: 20px; }
+  .cover-overlay {
+    position: fixed; inset: 0;
+    background: #0c3b2e;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+  }
+  .cover-overlay.hidden { display: none; }
 </style>
 </head>
 <body>
 
-<!-- ÉCRAN 1 : ACCUEIL -->
+<!-- غطاء الشاشة عند تمرير الهاتف -->
+<div id="cover" class="cover-overlay hidden">
+  <div class="logo">🕌</div>
+  <h2 id="cover-name" style="font-size:1.8em; color:#ffd700; text-align:center;"></h2>
+  <p style="text-align:center; color:#a8e6cf; font-size:1.1em;">مرّر الهاتف للاعب التالي وانتظر حتى يضغط "إظهار دوري"</p>
+  <button class="btn" onclick="hideCover()">👁️ إظهار دوري</button>
+</div>
+
+<!-- الشاشة 1: الرئيسية -->
 <div id="screen-home" class="screen active">
   <div class="logo">🕌</div>
-  <h1>Al-Jassas</h1>
-  <p class="arabic">الجاسوس</p>
-  <p style="text-align:center; line-height:1.6;">Le jeu de l'espion islamique.<br>Trouvez l'espion... ou ne vous faites pas démasquer !</p>
-  <button class="btn" onclick="startSetup()">▶ Commencer</button>
+  <h1>الجاسوس</h1>
+  <p class="subtitle">لعبة الجاسوس الإسلامية<br>اكشف الجاسوس... أو لا تنكشف!</p>
+  <button class="btn" onclick="startSetup()">▶ ابدأ اللعبة</button>
   <div class="hint-box">
-    <strong>Comment jouer :</strong>
+    <strong>كيف تلعب:</strong>
     <ul class="rules">
-      <li>Tous les joueurs voient le mot secret (une histoire, un prophète, un lieu...)</li>
-      <li>Un joueur est l'espion : il ne voit PAS le mot</li>
-      <li>Chacun dit une phrase en rapport avec le mot</li>
-      <li>L'espion bluffe et essaie de deviner</li>
-      <li>À la fin, le groupe vote pour désigner l'espion</li>
+      <li>جميع اللاعبين يرون الكلمة السرية (نبي، قصة، مكان...)</li>
+      <li>لاعب واحد هو الجاسوس: لا يرى الكلمة</li>
+      <li>كل لاعب يقول جملة أو كلمة تتعلق بالكلمة السرية</li>
+      <li>الجاسوس يتظاهر ويحاول التخمين</li>
+      <li>في النهاية يصوّت المجموعة على الجاسوس</li>
     </ul>
   </div>
 </div>
 
-<!-- ÉCRAN 2 : CONFIGURATION -->
+<!-- الشاشة 2: الإعداد -->
 <div id="screen-setup" class="screen">
-  <h2>⚙️ Configuration</h2>
+  <h2>⚙️ إعداد اللعبة</h2>
   <div class="card">
-    <label for="numPlayers">Nombre de joueurs :</label><br><br>
-    <input type="number" id="numPlayers" min="3" max="10" value="4" onchange="renderPlayerInputs()"><br><br>
+    <label>عدد اللاعبين:</label><br><br>
+    <input type="number" id="numPlayers" min="3" max="10" value="4" oninput="renderPlayerInputs()">
+    <br><br>
     <div id="playerInputs"></div>
     <br>
-    <label for="timerMinutes">Durée de la discussion (min) :</label><br><br>
+    <label>مدة النقاش (بالدقائق):</label><br><br>
     <input type="number" id="timerMinutes" min="1" max="10" value="5">
   </div>
-  <button class="btn" onclick="startGame()">🎮 Lancer la partie</button>
-  <button class="btn secondary" onclick="showScreen('screen-home')">← Retour</button>
+  <button class="btn" onclick="startGame()">🎮 ابدأ المباراة</button>
+  <button class="btn secondary" onclick="showScreen('screen-home')">→ رجوع</button>
 </div>
 
-<!-- ÉCRAN 3 : PASSER LE TÉLÉPHONE -->
+<!-- الشاشة 3: تمرير الهاتف -->
 <div id="screen-pass" class="screen">
-  <h2 id="pass-title">📱 Passez le téléphone</h2>
+  <h2 id="pass-title">📱 مرّر الهاتف</h2>
   <div class="card">
-    <p class="pass-phone" id="pass-player"></p>
-    <button class="btn" onclick="revealRole()">👁️ Voir mon rôle</button>
+    <p style="color:#a8e6cf;">دور اللاعب:</p>
+    <p class="pass-name" id="pass-player"></p>
+    <button class="btn" onclick="revealRole()">👁️ إظهار دوري</button>
   </div>
-  <div id="role-card" class="card hidden">
-    <!-- rempli par JS -->
-  </div>
+  <div id="role-card" class="card hidden"></div>
   <p id="spy-hint" class="hint-box hidden"></p>
-  <button class="btn secondary hidden" id="btn-next-pass" onclick="nextPlayer()">Suivant →</button>
+  <button class="btn secondary hidden" id="btn-next-pass" onclick="nextPlayer()">التالي ←</button>
 </div>
 
-<!-- ÉCRAN 4 : DISCUSSION -->
+<!-- الشاشة 4: النقاش -->
 <div id="screen-discussion" class="screen">
-  <h2>🗣️ Discussion</h2>
+  <h2>🗣️ وقت النقاش</h2>
   <div class="card">
-    <p>Dites chacun une phrase en rapport avec le mot secret !</p>
-    <br>
+    <p style="margin-bottom:14px;">كل لاعب يقول جملة أو كلمة تتعلق بالكلمة السرية!</p>
     <div class="timer-display" id="timer">05:00</div>
   </div>
-  <button class="btn" onclick="goToVote()">🗳️ Passer au vote</button>
-  <button class="btn secondary" onclick="showReveal()">👁️ Le mot secret était...</button>
+  <button class="btn" onclick="goToVote()">🗳️ الانتقال للتصويت</button>
+  <button class="btn secondary" onclick="showReveal()">👁️ كانت الكلمة السرية هي...</button>
   <div id="reveal-word" class="card hidden"></div>
 </div>
 
-<!-- ÉCRAN 5 : VOTE -->
+<!-- الشاشة 5: التصويت -->
 <div id="screen-vote" class="screen">
-  <h2>🗳️ Qui est l'espion ?</h2>
+  <h2>🗳️ من هو الجاسوس؟</h2>
   <div class="card">
-    <p>Chaque joueur vote (le téléphone passe de main en main) :</p>
-    <br>
+    <p style="margin-bottom:14px;">صوّتوا لاختيار الجاسوس:</p>
     <div id="voteButtons"></div>
   </div>
-  <button class="btn" onclick="submitVote()">✅ Confirmer le vote</button>
+  <button class="btn" onclick="submitVote()">✅ تأكيد التصويت</button>
 </div>
 
-<!-- ÉCRAN 6 : RÉSULTAT -->
+<!-- الشاشة 6: النتيجة -->
 <div id="screen-result" class="screen">
-  <h2>🏁 Résultat</h2>
-  <div class="card" id="result-card">
-    <!-- rempli par JS -->
-  </div>
-  <button class="btn" onclick="restartGame()">🔄 Rejouer</button>
+  <h2>🏁 النتيجة</h2>
+  <div class="card" id="result-card"></div>
+  <button class="btn" onclick="restartGame()">🔄 العب مجدداً</button>
+  <button class="btn secondary" onclick="showScreen('screen-home')">→ الرئيسية</button>
 </div>
 
 <script src="content.js"></script>
 <script>
   // ============================================================
-  // LOGIQUE DU JEU
+  // منطق اللعبة
   // ============================================================
 
   let game = {
@@ -239,7 +270,7 @@
     spyIndex: -1,
     secretEntry: null,
     currentPlayer: 0,
-    votes: {},
+    selectedVote: null,
     timerInterval: null,
     timeLeft: 300
   };
@@ -255,14 +286,14 @@
   }
 
   function renderPlayerInputs() {
-    const n = parseInt(document.getElementById('numPlayers').value) || 4;
-    document.getElementById('numPlayers').value = Math.max(3, Math.min(10, n));
-    const container = document.getElementById('playerInputs');
+    const n = Math.max(3, Math.min(10, parseInt(document.getElementById('numPlayers').value) || 4));
+    document.getElementById('numPlayers').value = n;
     let html = '';
     for (let i = 0; i < n; i++) {
-      html += `<input type="text" class="player-name-input" id="player-${i}" placeholder="Joueur ${i+1}" value="${i < game.players.length ? game.players[i].replace(/"/g,'&quot;') : ''}"><br>`;
+      const prev = game.players[i] || '';
+      html += `<input type="text" class="player-name-input" id="player-${i}" placeholder="اللاعب ${i+1}" value="${escapeAttr(prev)}"><br>`;
     }
-    container.innerHTML = html;
+    document.getElementById('playerInputs').innerHTML = html;
   }
 
   function startGame() {
@@ -270,15 +301,13 @@
     game.numPlayers = n;
     game.players = [];
     for (let i = 0; i < n; i++) {
-      const val = document.getElementById(`player-${i}`).value.trim();
-      game.players.push(val || `Joueur ${i+1}`);
+      const v = document.getElementById(`player-${i}`).value.trim();
+      game.players.push(v || `اللاعب ${i + 1}`);
     }
-    // Choisir l'espion au hasard
     game.spyIndex = Math.floor(Math.random() * n);
-    // Choisir le mot secret au hasard
     game.secretEntry = GAME_CONTENT[Math.floor(Math.random() * GAME_CONTENT.length)];
     game.currentPlayer = 0;
-    game.votes = {};
+    game.selectedVote = null;
     passPhone();
   }
 
@@ -287,7 +316,8 @@
     document.getElementById('btn-next-pass').classList.add('hidden');
     document.getElementById('spy-hint').classList.add('hidden');
     document.getElementById('pass-player').textContent = game.players[game.currentPlayer];
-    document.getElementById('pass-title').textContent = `📱 Passez le téléphone (${game.currentPlayer + 1}/${game.numPlayers})`;
+    document.getElementById('pass-title').textContent =
+      `📱 مرّر الهاتف (${game.currentPlayer + 1}/${game.numPlayers})`;
     showScreen('screen-pass');
   }
 
@@ -295,25 +325,30 @@
     const isSpy = game.currentPlayer === game.spyIndex;
     const card = document.getElementById('role-card');
     card.classList.remove('hidden');
+
     if (isSpy) {
       card.innerHTML = `
-        <p style="font-size:1.1em;">Tu es...</p>
-        <p class="spy-word">🕵️ L'ESPION</p>
-        <p>Tu ne connais pas le mot secret !<br>Écoute et bluffe.</p>
+        <p style="font-size:1em; color:#a8e6cf;">أنت...</p>
+        <p class="spy-word">🕵️ الجاسوس!</p>
+        <p>لا تعرف الكلمة السرية!<br>استمع وتظاهر بالمعرفة.</p>
       `;
       const hint = SPY_HINTS[Math.floor(Math.random() * SPY_HINTS.length)];
       const hintEl = document.getElementById('spy-hint');
-      hintEl.textContent = "💡 Astuce : " + hint;
+      hintEl.textContent = "💡 نصيحة: " + hint;
       hintEl.classList.remove('hidden');
     } else {
       card.innerHTML = `
-        <p style="font-size:1.1em;">Tu connais le mot secret :</p>
+        <p style="color:#a8e6cf; margin-bottom:8px;">الكلمة السرية هي:</p>
         <p class="secret-word">${escapeHtml(game.secretEntry.mot)}</p>
-        <p style="color:#a8e6cf;">Catégorie : ${escapeHtml(game.secretEntry.categorie)}</p>
-        <p class="hint-box" style="margin-top:10px;">Dis une phrase en rapport, sans le révéler directement !</p>
+        <span class="categorie-tag">${escapeHtml(game.secretEntry.categorie)}</span>
+        <p class="hint-box" style="margin-top:14px;">قل جملة أو كلمة تتعلق بها دون أن تقولها مباشرة!</p>
       `;
     }
     document.getElementById('btn-next-pass').classList.remove('hidden');
+  }
+
+  function hideCover() {
+    document.getElementById('cover').classList.add('hidden');
   }
 
   function nextPlayer() {
@@ -321,6 +356,11 @@
     if (game.currentPlayer >= game.numPlayers) {
       startDiscussion();
     } else {
+      // إخفاء الشاشة بين اللاعبين
+      const cover = document.getElementById('cover');
+      document.getElementById('cover-name').textContent =
+        `دور: ${game.players[game.currentPlayer]}`;
+      cover.classList.remove('hidden');
       passPhone();
     }
   }
@@ -345,23 +385,28 @@
   function updateTimer() {
     const m = Math.floor(game.timeLeft / 60).toString().padStart(2, '0');
     const s = (game.timeLeft % 60).toString().padStart(2, '0');
-    document.getElementById('timer').textContent = `${m}:${s}`;
+    const el = document.getElementById('timer');
+    el.textContent = `${m}:${s}`;
+    el.className = 'timer-display' + (game.timeLeft <= 30 ? ' urgent' : '');
   }
 
   function showReveal() {
     const el = document.getElementById('reveal-word');
     el.classList.remove('hidden');
-    el.innerHTML = `<p>Le mot secret est :</p><p class="secret-word">${escapeHtml(game.secretEntry.mot)}</p>`;
+    el.innerHTML = `
+      <p style="color:#a8e6cf;">الكلمة السرية كانت:</p>
+      <p class="secret-word">${escapeHtml(game.secretEntry.mot)}</p>
+      <span class="categorie-tag">${escapeHtml(game.secretEntry.categorie)}</span>
+    `;
   }
 
   function goToVote() {
     clearInterval(game.timerInterval);
-    const container = document.getElementById('voteButtons');
     let html = '';
     game.players.forEach((p, i) => {
       html += `<button class="vote-btn" data-index="${i}" onclick="selectVote(${i})">${escapeHtml(p)}</button>`;
     });
-    container.innerHTML = html;
+    document.getElementById('voteButtons').innerHTML = html;
     game.selectedVote = null;
     showScreen('screen-vote');
   }
@@ -374,36 +419,63 @@
 
   function submitVote() {
     if (game.selectedVote === null) {
-      alert("Sélectionnez un joueur d'abord !");
+      alert('اختر لاعباً أولاً!');
       return;
     }
-    const card = document.getElementById('result-card');
     const spyName = game.players[game.spyIndex];
     const votedName = game.players[game.selectedVote];
     const spyCaught = game.selectedVote === game.spyIndex;
 
-    let html = `<p style="font-size:1.1em;">L'espion était :</p>
+    let html = `
+      <p style="color:#a8e6cf;">كان الجاسوس هو:</p>
       <p class="result-spy">🕵️ ${escapeHtml(spyName)}</p>
-      <p>Le groupe a voté : <strong>${escapeHtml(votedName)}</strong></p><br>`;
+      <p>صوّت المجموعة على: <strong>${escapeHtml(votedName)}</strong></p><br>
+    `;
 
     if (spyCaught) {
-      html += `<p class="result-win">✅ Le groupe a gagné !<br>L'espion est démasqué !</p>`;
+      html += `<p class="result-win">✅ فازت المجموعة!<br>تم كشف الجاسوس!</p>`;
     } else {
-      html += `<p class="result-spy">❌ L'espion s'est échappé !<br>${escapeHtml(spyName)} remporte la manche.</p>`;
+      html += `<p class="result-spy">❌ نجا الجاسوس!<br>${escapeHtml(spyName)} يفوز بهذه الجولة.</p>`;
     }
 
-    html += `<br><div class="hint-box">Le mot secret était : <strong>${escapeHtml(game.secretEntry.mot)}</strong> (${escapeHtml(game.secretEntry.categorie)})</div>`;
-    card.innerHTML = html;
+    html += `<br>
+      <div class="hint-box">
+        الكلمة السرية كانت:<br>
+        <strong>${escapeHtml(game.secretEntry.mot)}</strong>
+        <span class="categorie-tag">${escapeHtml(game.secretEntry.categorie)}</span>
+      </div>`;
+
+    document.getElementById('result-card').innerHTML = html;
     showScreen('screen-result');
   }
 
   function restartGame() {
-    game = { players: game.players, numPlayers: 0, spyIndex: -1, secretEntry: null, currentPlayer: 0, votes: {}, timerInterval: null, timeLeft: 300 };
-    showScreen('screen-home');
+    const savedPlayers = [...game.players];
+    const savedNum = game.numPlayers;
+    clearInterval(game.timerInterval);
+    game = {
+      players: savedPlayers,
+      numPlayers: savedNum,
+      spyIndex: -1,
+      secretEntry: null,
+      currentPlayer: 0,
+      selectedVote: null,
+      timerInterval: null,
+      timeLeft: 300
+    };
+    startGame();
   }
 
   function escapeHtml(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
 </script>
 </body>

@@ -1,98 +1,98 @@
 // ============================================================
-// AL-JASSAS (الجاسوس) — Jeu d'espion islamique
-// Contenu : mots secrets, ayat, histoires des prophètes
+// الجاسوس — لعبة اسلامية
+// المحتوى: كلمات سرية، آيات، قصص الأنبياء
 // ============================================================
 
 const GAME_CONTENT = [
-  // ---------- PROPHÈTES ----------
-  { categorie: "Prophète", mot: "Yusuf (Youssouf) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Musa (Moïse) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Nuh (Noé) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Ibrahim (Abraham) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Yunus (Jonas) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Salih ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Isa (Jésus) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Isma'il ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Hud ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Sulayman (Salomon) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Dawud (David) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Ayyub (Job) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Lut (Loth) ﷺ", theme: "histoire" },
-  { categorie: "Prophète", mot: "Adam ﷺ", theme: "histoire" },
+  // ---------- الأنبياء ----------
+  { categorie: "نبي", mot: "يوسف عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "موسى عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "نوح عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "إبراهيم عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "يونس عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "صالح عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "عيسى عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "إسماعيل عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "هود عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "سليمان عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "داود عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "أيوب عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "لوط عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "آدم عليه السلام", theme: "histoire" },
 
-  // ---------- SOURATES / AYAT CÉLÈBRES ----------
-  { categorie: "Sourate", mot: "Al-Fatiha (l'Ouverture)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Al-Ikhlas (le Monothisme pur)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Al-Falaq et An-Nas (les protections)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Ad-Duha (le Jour montant)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Al-Kawthar (l'Abondance)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Yasin (le cœur du Coran)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Al-Mulk (la Royauté)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Al-Kahf (la Caverne)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Al-Fil (l'Éléphant)", theme: "ayah" },
-  { categorie: "Sourate", mot: "Ayat al-Kursi (2:255)", theme: "ayah" },
+  // ---------- السور والآيات ----------
+  { categorie: "سورة", mot: "الفاتحة", theme: "ayah" },
+  { categorie: "سورة", mot: "الإخلاص", theme: "ayah" },
+  { categorie: "سورة", mot: "الفلق والناس (المعوذتان)", theme: "ayah" },
+  { categorie: "سورة", mot: "الضحى", theme: "ayah" },
+  { categorie: "سورة", mot: "الكوثر", theme: "ayah" },
+  { categorie: "سورة", mot: "يس", theme: "ayah" },
+  { categorie: "سورة", mot: "الملك", theme: "ayah" },
+  { categorie: "سورة", mot: "الكهف", theme: "ayah" },
+  { categorie: "سورة", mot: "الفيل", theme: "ayah" },
+  { categorie: "سورة", mot: "آية الكرسي", theme: "ayah" },
 
-  // ---------- HISTOIRES / RÉCITS ----------
-  { categorie: "Histoire", mot: "Al-Isra wal-Mi'raj", theme: "histoire" },
-  { categorie: "Histoire", mot: "La Bataille de Badr", theme: "histoire" },
-  { categorie: "Histoire", mot: "La Bataille d'Uhud", theme: "histoire" },
-  { categorie: "Histoire", mot: "La Conquête de La Mecque", theme: "histoire" },
-  { categorie: "Histoire", mot: "Les Gens de la Caverne (Ahl al-Kahf)", theme: "histoire" },
-  { categorie: "Histoire", mot: "La scission de la mer", theme: "histoire" },
-  { categorie: "Histoire", mot: "Le sacrifice d'Ibrahim", theme: "histoire" },
-  { categorie: "Histoire", mot: "La Hijra (l'émigration à Médine)", theme: "histoire" },
-  { categorie: "Histoire", mot: "L'histoire du puits de Yusuf", theme: "histoire" },
-  { categorie: "Histoire", mot: "Maryam et la naissance d'Isa", theme: "histoire" },
-  { categorie: "Histoire", mot: "Le peuple de 'Ad et le vent", theme: "histoire" },
-  { categorie: "Histoire", mot: "Saba et la reine de Bilqis", theme: "histoire" },
-  { categorie: "Histoire", mot: "Talut et Jalut", theme: "histoire" },
-  { categorie: "Histoire", mot: "Les jardins de Firdaws", theme: "histoire" },
+  // ---------- القصص والرجال ----------
+  { categorie: "قصة", mot: "الإسراء والمعراج", theme: "histoire" },
+  { categorie: "قصة", mot: "غزوة بدر", theme: "histoire" },
+  { categorie: "قصة", mot: "غزوة أحد", theme: "histoire" },
+  { categorie: "قصة", mot: "فتح مكة", theme: "histoire" },
+  { categorie: "قصة", mot: "أصحاب الكهف", theme: "histoire" },
+  { categorie: "قصة", mot: "انفلاق البحر لموسى", theme: "histoire" },
+  { categorie: "قصة", mot: "ذبيحة إبراهيم", theme: "histoire" },
+  { categorie: "قصة", mot: "الهجرة إلى المدينة", theme: "histoire" },
+  { categorie: "قصة", mot: "قصة يوسف والجب", theme: "histoire" },
+  { categorie: "قصة", mot: "مريم وولادة عيسى", theme: "histoire" },
+  { categorie: "قصة", mot: "قوم عاد والريح", theme: "histoire" },
+  { categorie: "قصة", mot: "سبأ وبلقيس", theme: "histoire" },
+  { categorie: "قصة", mot: "طالوت وجالوت", theme: "histoire" },
+  { categorie: "قصة", mot: "جنة الفردوس", theme: "histoire" },
 
-  // ---------- LIEUX ----------
-  { categorie: "Lieu", mot: "La Ka'ba", theme: "lieu" },
-  { categorie: "Lieu", mot: "Masjid al-Aqsa", theme: "lieu" },
-  { categorie: "Lieu", mot: "Médine (Al-Madinah)", theme: "lieu" },
-  { categorie: "Lieu", mot: "Le Mont Arafat", theme: "lieu" },
-  { categorie: "Lieu", mot: "Le Puits de Zamzam", theme: "lieu" },
-  { categorie: "Lieu", mot: "La Grotte de Hira", theme: "lieu" },
-  { categorie: "Lieu", mot: "La Grotte Thawr", theme: "lieu" },
-  { categorie: "Lieu", mot: "Le Mont Uhud", theme: "lieu" },
-  { categorie: "Lieu", mot: "Mina et le stoning de Jamrat", theme: "lieu" },
+  // ---------- الأماكن ----------
+  { categorie: "مكان", mot: "الكعبة", theme: "lieu" },
+  { categorie: "مكان", mot: "المسجد الأقصى", theme: "lieu" },
+  { categorie: "مكان", mot: "المدينة المنورة", theme: "lieu" },
+  { categorie: "مكان", mot: "جبل عرفات", theme: "lieu" },
+  { categorie: "مكان", mot: "بئر زمزم", theme: "lieu" },
+  { categorie: "مكان", mot: "غار حراء", theme: "lieu" },
+  { categorie: "مكان", mot: "غار ثور", theme: "lieu" },
+  { categorie: "مكان", mot: "جبل أحد", theme: "lieu" },
+  { categorie: "مكان", mot: "منى ورمي الجمرات", theme: "lieu" },
 
-  // ---------- PERSONNAGES ----------
-  { categorie: "Personnage", mot: "Abu Bakr As-Siddiq", theme: "personnage" },
-  { categorie: "Personnage", mot: "Umar ibn Al-Khattab", theme: "personnage" },
-  { categorie: "Personnage", mot: "Uthman ibn Affan", theme: "personnage" },
-  { categorie: "Personnage", mot: "Ali ibn Abi Talib", theme: "personnage" },
-  { categorie: "Personnage", mot: "Khalid ibn Al-Walid", theme: "personnage" },
-  { categorie: "Personnage", mot: "Bilal ibn Rabah", theme: "personnage" },
-  { categorie: "Personnage", mot: "Aisha (raa)", theme: "personnage" },
-  { categorie: "Personnage", mot: "Khadija (raa)", theme: "personnage" },
-  { categorie: "Personnage", mot: "Hamza ibn Abdul-Muttalib", theme: "personnage" },
-  { categorie: "Personnage", mot: "Fir'awn (Pharaon)", theme: "personnage" },
-  { categorie: "Personnage", mot: "Qarun (Coré)", theme: "personnage" },
-  { categorie: "Personnage", mot: "Abu Lahab", theme: "personnage" },
-  { categorie: "Personnage", mot: "Bilqis, la reine de Saba", theme: "personnage" },
-  { categorie: "Personnage", mot: "Ya'qub (Jacob) ﷺ", theme: "personnage" },
+  // ---------- الشخصيات ----------
+  { categorie: "شخصية", mot: "أبو بكر الصديق", theme: "personnage" },
+  { categorie: "شخصية", mot: "عمر بن الخطاب", theme: "personnage" },
+  { categorie: "شخصية", mot: "عثمان بن عفان", theme: "personnage" },
+  { categorie: "شخصية", mot: "علي بن أبي طالب", theme: "personnage" },
+  { categorie: "شخصية", mot: "خالد بن الوليد", theme: "personnage" },
+  { categorie: "شخصية", mot: "بلال بن رباح", theme: "personnage" },
+  { categorie: "شخصية", mot: "عائشة رضي الله عنها", theme: "personnage" },
+  { categorie: "شخصية", mot: "خديجة رضي الله عنها", theme: "personnage" },
+  { categorie: "شخصية", mot: "حمزة بن عبد المطلب", theme: "personnage" },
+  { categorie: "شخصية", mot: "فرعون", theme: "personnage" },
+  { categorie: "شخصية", mot: "قارون", theme: "personnage" },
+  { categorie: "شخصية", mot: "أبو لهب", theme: "personnage" },
+  { categorie: "شخصية", mot: "بلقيس ملكة سبأ", theme: "personnage" },
+  { categorie: "شخصية", mot: "يعقوب عليه السلام", theme: "personnage" },
 
-  // ---------- PILIERS & PRATIQUES ----------
-  { categorie: "Pilier", mot: "Le Hajj", theme: "pratique" },
-  { categorie: "Pilier", mot: "Le Ramadan", theme: "pratique" },
-  { categorie: "Pilier", mot: "La Zakat", theme: "pratique" },
-  { categorie: "Pilier", mot: "La Salat (prière)", theme: "pratique" },
-  { categorie: "Pilier", mot: "La Chahada", theme: "pratique" },
-  { categorie: "Pilier", mot: "Le Eid al-Adha", theme: "pratique" },
-  { categorie: "Pilier", mot: "Le Eid al-Fitr", theme: "pratique" },
-  { categorie: "Pilier", mot: "Le Tawaf", theme: "pratique" },
-  { categorie: "Pilier", mot: "Le Sa'i (Safa et Marwa)", theme: "pratique" },
-  { categorie: "Pilier", mot: "Le Wuquf à Arafat", theme: "pratique" }
+  // ---------- الأركان والعبادات ----------
+  { categorie: "ركن", mot: "الحج", theme: "pratique" },
+  { categorie: "ركن", mot: "رمضان", theme: "pratique" },
+  { categorie: "ركن", mot: "الزكاة", theme: "pratique" },
+  { categorie: "ركن", mot: "الصلاة", theme: "pratique" },
+  { categorie: "ركن", mot: "الشهادتان", theme: "pratique" },
+  { categorie: "ركن", mot: "عيد الأضحى", theme: "pratique" },
+  { categorie: "ركن", mot: "عيد الفطر", theme: "pratique" },
+  { categorie: "ركن", mot: "الطواف", theme: "pratique" },
+  { categorie: "ركن", mot: "السعي بين الصفا والمروة", theme: "pratique" },
+  { categorie: "ركن", mot: "الوقوف بعرفات", theme: "pratique" }
 ];
 
-// Messages affichés à l'espion pour l'aider à bluffer
+// نصائح للجاسوس
 const SPY_HINTS = [
-  "Écoute bien les indices des autres joueurs",
-  "Reste vague : « je pense que c'est une histoire connue »",
-  "Parle de piété, de prophètes, de prière — mais reste évasif",
-  "Ne sois ni trop précis, ni trop silencieux",
-  "Si tu devines le mot, tu peux le dire au moment du vote"
+  "استمع جيداً إلى تلميحات اللاعبين الآخرين",
+  "ابقَ غامضاً: « أظنها قصة معروفة »",
+  "تحدث عن التقوى والأنبياء والصلاة — لكن بغموض",
+  "لا تكن دقيقاً جداً ولا صامتاً جداً",
+  "إذا خمّنت الكلمة السرية يمكنك قولها وقت التصويت"
 ];
