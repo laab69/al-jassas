@@ -32,6 +32,30 @@ const GAME_CONTENT = [
   { categorie: "سورة", mot: "الفيل", theme: "ayah" },
   { categorie: "سورة", mot: "آية الكرسي", theme: "ayah" },
 
+  // ---------- أحداث من السيرة ----------
+  { categorie: "حدث", mot: "غزوة الخندق (الأحزاب)", theme: "histoire" },
+  { categorie: "حدث", mot: "صلح الحديبية", theme: "histoire" },
+  { categorie: "حدث", mot: "غزوة حنين", theme: "histoire" },
+  { categorie: "حدث", mot: "حجة الوداع", theme: "histoire" },
+  { categorie: "حدث", mot: "بيعة العقبة", theme: "histoire" },
+  { categorie: "حدث", mot: "عام الحزن (وفاة خديجة وأبو طالب)", theme: "histoire" },
+  { categorie: "حدث", mot: "بيعة الشجرة (الرضوان)", theme: "histoire" },
+  { categorie: "حدث", mot: "غزوة تبوك", theme: "histoire" },
+  { categorie: "حدث", mot: "يوم بدر الثاني (الصغرى)", theme: "histoire" },
+  { categorie: "حدث", mot: "بعثة الحديبية للسيدة عائشة", theme: "histoire" },
+
+  // ---------- معجزات ----------
+  { categorie: "معجزة", mot: "شق القمر", theme: "histoire" },
+  { categorie: "معجزة", mot: "الإسراء والمعراج (تفصيل)", theme: "histoire" },
+  { categorie: "معجزة", mot: "نبع الماء من بين الأصابع", theme: "histoire" },
+  { categorie: "معجزة", mot: "تكثير الطعام في خيبر", theme: "histoire" },
+  { categorie: "معجزة", mot: "المعراج إلى السماوات السبع", theme: "histoire" },
+  { categorie: "معجزة", mot: "تسبيح الحصى في يده ﷺ", theme: "histoire" },
+  { categorie: "معجزة", mot: "إخبار عن مكانة علي يوم غدير خم", theme: "histoire" },
+  { categorie: "معجزة", mot: "عصا موسى", theme: "histoire" },
+  { categorie: "معجزة", mot: "إحياء عيسى للموتى بإذن الله", theme: "histoire" },
+  { categorie: "معجزة", mot: "كلام الهرة للسحرة", theme: "histoire" },
+
   // ---------- القصص والرجال ----------
   { categorie: "قصة", mot: "الإسراء والمعراج", theme: "histoire" },
   { categorie: "قصة", mot: "غزوة بدر", theme: "histoire" },
@@ -48,6 +72,15 @@ const GAME_CONTENT = [
   { categorie: "قصة", mot: "طالوت وجالوت", theme: "histoire" },
   { categorie: "قصة", mot: "جنة الفردوس", theme: "histoire" },
 
+  // ---------- الأنبياء الإضافيون ----------
+  { categorie: "نبي", mot: "إدريس عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "إلياس عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "اليسع عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "ذو الكفل عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "شعيب عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "زكريا عليه السلام", theme: "histoire" },
+  { categorie: "نبي", mot: "يحيى عليه السلام", theme: "histoire" },
+
   // ---------- الأماكن ----------
   { categorie: "مكان", mot: "الكعبة", theme: "lieu" },
   { categorie: "مكان", mot: "المسجد الأقصى", theme: "lieu" },
@@ -58,6 +91,17 @@ const GAME_CONTENT = [
   { categorie: "مكان", mot: "غار ثور", theme: "lieu" },
   { categorie: "مكان", mot: "جبل أحد", theme: "lieu" },
   { categorie: "مكان", mot: "منى ورمي الجمرات", theme: "lieu" },
+
+  // ---------- أماكن إضافية ----------
+  { categorie: "مكان", mot: "المسجد النبوي", theme: "lieu" },
+  { categorie: "مكان", mot: "البقيع (مقبرة المدينة)", theme: "lieu" },
+  { categorie: "مكان", mot: "جبل النور", theme: "lieu" },
+  { categorie: "مكان", mot: "مقام إبراهيم", theme: "lieu" },
+  { categorie: "مكان", mot: "ماء زمزم - حادثة هاجر", theme: "lieu" },
+  { categorie: "مكان", mot: "الروضة الشريفة", theme: "lieu" },
+  { categorie: "مكان", mot: "دار الأرقم", theme: "lieu" },
+  { categorie: "مكان", mot: "مسجد قباء", theme: "lieu" },
+  { categorie: "مكان", mot: "وج (منزل يوسف بمصر)", theme: "lieu" },
 
   // ---------- الشخصيات ----------
   { categorie: "شخصية", mot: "أبو بكر الصديق", theme: "personnage" },
@@ -75,6 +119,26 @@ const GAME_CONTENT = [
   { categorie: "شخصية", mot: "بلقيس ملكة سبأ", theme: "personnage" },
   { categorie: "شخصية", mot: "يعقوب عليه السلام", theme: "personnage" },
 
+  // ---------- شخصيات إضافية ----------
+  { categorie: "شخصية", mot: "زيد بن حارثة", theme: "personnage" },
+  { categorie: "شخصية", mot: "أبو هريرة", theme: "personnage" },
+  { categorie: "شخصية", mot: "أنس بن مالك", theme: "personnage" },
+  { categorie: "شخصية", mot: "جعفر بن أبي طالب", theme: "personnage" },
+  { categorie: "شخصية", mot: "سلمان الفارسي", theme: "personnage" },
+  { categorie: "شخصية", mot: "صهيب الرومي", theme: "personnage" },
+  { categorie: "شخصية", mot: "عمار بن ياسر", theme: "personnage" },
+  { categorie: "شخصية", mot: "خبيب بن عدي", theme: "personnage" },
+  { categorie: "شخصية", mot: "أبو ذر الغفاري", theme: "personnage" },
+  { categorie: "شخصية", mot: "مصعب بن عمير", theme: "personnage" },
+  { categorie: "شخصية", mot: "أبو سفيان بن حرب", theme: "personnage" },
+  { categorie: "شخصية", mot: "هند بنت عتبة", theme: "personnage" },
+  { categorie: "شخصية", mot: "أبو جهل (عمرو بن هشام)", theme: "personnage" },
+  { categorie: "شخصية", mot: "الوليد بن المغيرة", theme: "personnage" },
+  { categorie: "شخصية", mot: "عتبة وشيبة (أبناء ربيعة)", theme: "personnage" },
+  { categorie: "شخصية", mot: "السامري (صنعه العجل)", theme: "personnage" },
+  { categorie: "شخصية", mot: "هامان", theme: "personnage" },
+  { categorie: "شخصية", mot: "ابليس (الشيطان)", theme: "personnage" },
+
   // ---------- الأركان والعبادات ----------
   { categorie: "ركن", mot: "الحج", theme: "pratique" },
   { categorie: "ركن", mot: "رمضان", theme: "pratique" },
@@ -85,7 +149,45 @@ const GAME_CONTENT = [
   { categorie: "ركن", mot: "عيد الفطر", theme: "pratique" },
   { categorie: "ركن", mot: "الطواف", theme: "pratique" },
   { categorie: "ركن", mot: "السعي بين الصفا والمروة", theme: "pratique" },
-  { categorie: "ركن", mot: "الوقوف بعرفات", theme: "pratique" }
+  // ---------- عبادات وأخلاق إضافية ----------
+  { categorie: "عبادة", mot: "صلاة الجمعة", theme: "pratique" },
+  { categorie: "عبادة", mot: "صلاة التهجد", theme: "pratique" },
+  { categorie: "عبادة", mot: "صلاة الجنازة", theme: "pratique" },
+  { categorie: "عبادة", mot: "الأذان", theme: "pratique" },
+  { categorie: "عبادة", mot: "الوضوء", theme: "pratique" },
+  { categorie: "عبادة", mot: "الغسل", theme: "pratique" },
+  { categorie: "عبادة", mot: "صدقة الفطر", theme: "pratique" },
+  { categorie: "عبادة", mot: "صيام عاشوراء", theme: "pratique" },
+  { categorie: "عبادة", mot: "الأضحية", theme: "pratique" },
+  { categorie: "عبادة", mot: "الاعتكاف في رمضان", theme: "pratique" },
+  { categorie: "عبادة", mot: "قيام الليل", theme: "pratique" },
+  { categorie: "عبادة", mot: "الصدقة الجارية", theme: "pratique" },
+
+  // ---------- أخلاق وقيم ----------
+  { categorie: "خُلُق", mot: "الصدق", theme: "pratique" },
+  { categorie: "خُلُق", mot: "الصبر", theme: "pratique" },
+  { categorie: "خُلُق", mot: "الشكر", theme: "pratique" },
+  { categorie: "خُلُق", mot: "التوكل على الله", theme: "pratique" },
+  { categorie: "خُلُق", mot: "الرحمة", theme: "pratique" },
+  { categorie: "خُلُق", mot: "الأمانة", theme: "pratique" },
+  { categorie: "خُلُق", mot: "الحياء", theme: "pratique" },
+  { categorie: "خُلُق", mot: "العفو والمسامحة", theme: "pratique" },
+  { categorie: "خُلُق", mot: "بر الوالدين", theme: "pratique" },
+  { categorie: "خُلُق", mot: "صلة الرحم", theme: "pratique" },
+
+  // ---------- مفاهيم إسلامية ----------
+  { categorie: "مفهوم", mot: "التوحيد", theme: "pratique" },
+  { categorie: "مفهوم", mot: "الجنة", theme: "pratique" },
+  { categorie: "مفهوم", mot: "النار (جهنم)", theme: "pratique" },
+  { categorie: "مفهوم", mot: "يوم القيامة", theme: "pratique" },
+  { categorie: "مفهوم", mot: "الميزان (يوم الحساب)", theme: "pratique" },
+  { categorie: "مفهوم", mot: "الصراط المستقيم", theme: "pratique" },
+  { categorie: "مفهوم", mot: "اللوح المحفوظ", theme: "pratique" },
+  { categorie: "مفهوم", mot: "الملائكة الكرام الكاتبون", theme: "pratique" },
+  { categorie: "مفهوم", mot: "جبريل عليه السلام", theme: "pratique" },
+  { categorie: "مفهوم", mot: "ميكائيل عليه السلام", theme: "pratique" },
+  { categorie: "مفهوم", mot: "إسرافيل (النفخ في الصور)", theme: "pratique" },
+  { categorie: "مفهوم", mot: "عزرائيل (ملك الموت)", theme: "pratique" }
 ];
 
 // نصائح للجاسوس
